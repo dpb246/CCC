@@ -1,5 +1,5 @@
 '''
-CCC Senior 3
+CCC 2018 Senior 3
 Score: 15/15
 '''
 N, M = (int(x) for x in input().split(" "))

@@ -1,5 +1,5 @@
 '''
-CCC Senior 2
+CCC 2018 Senior 2
 Score: 15/15
 '''
 N = int(input())
