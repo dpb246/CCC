@@ -59,8 +59,10 @@ else:
                 pens.pop(i)
                 break
         else:
+            print("breaking")
             outside_broke = True
             continue
         shared_with_pen.costs.pop(str(min_edge))
         pens.append(merge(active_pen, shared_with_pen))
+    print(len(pens))
     print(total_cost)

@@ -7,6 +7,7 @@ Correct on Subtask:
 '''
 from copy import deepcopy
 import random
+import math
 H = int(input())
 houses = [int(input()) for i in range(H)]
 houses.sort()
@@ -45,4 +46,4 @@ else:
             #print("short", int(sortedPos(distances_between, k)/2), "shortest", shortest)
             if (sortedPos(distances_between, k)/2 < shortest) == True:
                 shortest = sortedPos(distances_between, k)/2
-    print(int(shortest)) #Take largest distance and place hydrant in center
+    print(math.ceil(shortest)) #Take largest distance and place hydrant in center
