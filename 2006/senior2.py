@@ -1,3 +1,6 @@
+"""
+Full Marks
+"""
 import string
 plain = input()
 decode = input()

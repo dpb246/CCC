@@ -1,3 +1,6 @@
+"""
+Full Marks
+"""
 k = int(input())
 
 message = input()
