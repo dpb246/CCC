@@ -8,7 +8,7 @@ rice = [int(i) for i in input().split(" ")]
 can_combine = [[-1 for j in range(n+1)] for i in range(n+1)]
 def combine(rice):
     if len(rice) == 1: return 1
-    for i in range(len(rice)-1):    
+    for i in range(len(rice)-1):
         if rice[i] == rice[i+1]:
             new = deepcopy(rice)
             new[i] += new.pop(i+1)
@@ -36,7 +36,7 @@ for i in range(n):
                 if t > maximum:
                     maximum = t
 print(maximum)
-        
+
 '''
 3/15 recursion style
 
@@ -60,7 +60,7 @@ def biggest(rice):
         else:
             return max(rice[0], rice[1])
     maximum = 0
-    for i in range(len(rice)-1):    
+    for i in range(len(rice)-1):
         if rice[i] == rice[i+1]:
             new = deepcopy(rice)
             new[i] += new.pop(i+1)
