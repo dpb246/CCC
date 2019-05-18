@@ -1,40 +1,80 @@
 #include <iostream>
 #include <cmath>
-#define maxb 101
 #define maxp 33
 using namespace std;
-
-int gcd(int a, int b) {
-  a = abs(a);
-  b = abs(b);
-  return b == 0 ? a : gcd(b, a%b);
-}
-
-struct building {
-  int s;
-  int x[maxp];
-  int y[maxp];
-  int mx = -1000, my = -1000, sx = 1000, sy = 1000; //bounding box
+struct Point
+{
+    int x;
+    int y;
 };
+bool onSegment(Point p, Point q, Point r)
+{
+    if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) &&
+        q.y <= max(p.y, r.y) && q.y >= min(p.y, r.y))
+       return true;
 
+    return false;
+}
+int orientation(Point p, Point q, Point r)
+{
+    int val = (q.y - p.y) * (r.x - q.x) -
+              (q.x - p.x) * (r.y - q.y);
 
+    if (val == 0) return 0;  // colinear
 
+    return (val > 0) ? 1: 2; // clock or counterclock wise
+}
+bool doIntersect(Point p1, Point q1, Point p2, Point q2)
+{
+    int o1 = orientation(p1, q1, p2);
+    int o2 = orientation(p1, q1, q2);
+    int o3 = orientation(p2, q2, p1);
+    int o4 = orientation(p2, q2, q1);
+
+    // General case
+    if (o1 != o2 && o3 != o4)
+        return true;
+
+    // Special Cases
+    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if (o1 == 0 && onSegment(p1, p2, q1)) return true;
+
+    // p1, q1 and q2 are colinear and q2 lies on segment p1q1
+    if (o2 == 0 && onSegment(p1, q2, q1)) return true;
+
+    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if (o3 == 0 && onSegment(p2, p1, q2)) return true;
+
+     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if (o4 == 0 && onSegment(p2, q1, q2)) return true;
+
+    return false; // Doesn't fall in any of the above cases
+}
 int main() {
   cin.sync_with_stdio(0); cin.tie(0);
-  int xr, yr, xj, yj, n, i, s;
-  cin >> xr >> yr >> xj >> yj;
+  Point r, j, p0, p1, p2;
+  int n, i, s;
+  cin >> r.x >> r.y >> j.x >> j.y;
   cin >> n;
-  building b[maxb];
+  int count = 0;
   for (i = 0; i < n; i++) {
     cin >> s;
-    b[i].s = s;
-    for (; s > 0; s--) {
-      cin >> b[i].x[s] >> b[i].y[s];
-      b[i].mx = max(b[i].mx, b[i].x[s]);
-      b[i].my = max(b[i].my, b[i].y[s]);
-      b[i].sx = min(b[i].sx, b[i].x[s]);
-      b[i].sy = min(b[i].sy, b[i].y[s]);
+    cin >> p0.x >> p0.y;
+    p1 = p0;
+    bool hit = false;
+    for (; s > 1; s--) {
+      cin >> p2.x >> p2.y;
+      hit = hit || doIntersect(r, j, p1, p2);
+      p1 = p2;
     }
+    if (hit) count++;
   }
-  cout << b[0].mx << " " << b[0].my << " " << b[0].sx << " " << b[0].sy << endl;
+  cout << count << endl;
 }
+/***
+0 0 3 3
+3
+4 1 2 2 2 2 1 1 1
+4 3 2 4 2 4 1 3 1
+4 2 2 3 2 3 1 2 1
+***/
